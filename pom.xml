@@ -14,13 +14,13 @@
     <name>order-processing-yard</name>
 
     <modules>
-        <module>api-gateway</module>
-        <module>auth-service</module>
-        <module>order-service</module>
-        <module>user-service</module>
-        <module>product-service</module>
-        <module>inventory-service</module>
-        <module>notification-service</module>
+        <module>src/service/ory/api-gateway</module>
+        <module>src/service/ory/auth-service</module>
+        <module>src/service/ory/order-service</module>
+        <module>src/service/ory/user-service</module>
+        <module>src/service/ory/product-service</module>
+        <module>src/service/ory/inventory-service</module>
+        <module>src/service/ory/notification-service</module>
     </modules>
 
     <properties>
@@ -34,7 +34,13 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>3.0.2</version>
+        </dependency>
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
