@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AmplicodePersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit moduleName="user-service" name="Default">
+        <packages>
+          <package value="vlad.way.user.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="inventory-service" name="Default">
+        <packages>
+          <package value="vlad.way.inventory.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="order-service" name="Default">
+        <packages>
+          <package value="vlad.way.order.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="auth-service" name="Default">
+        <packages>
+          <package value="vlad.way.auth.service" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
+</project>
