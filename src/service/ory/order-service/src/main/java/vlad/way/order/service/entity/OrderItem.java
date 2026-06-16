@@ -9,7 +9,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -43,4 +43,24 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderItem orderItem = (OrderItem) o;
+        return Objects.equals(id, orderItem.id) && Objects.equals(productId, orderItem.productId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, productId);
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "productId=" + productId +
+                ", amount=" + amount +
+                ", price=" + price +
+                '}';
+    }
 }
