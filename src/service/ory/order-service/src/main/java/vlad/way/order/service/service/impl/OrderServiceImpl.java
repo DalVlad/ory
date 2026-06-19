@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO getOrder(UUID id){
-        return mo.mapToOrderDTO(or.findById(id)
+        return mo.mapToOrderDTO(or.findByIdOrderByItems(id)
                 .orElseThrow(() -> new OrderNotFountException("Order not found with id")));
     }
 

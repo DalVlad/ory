@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "vlad.way.order.service.grpc";
+option java_multiple_files = true;
+
+service Inventory{
+  rpc getProduct (InventoryRequest) returns (InventoryResponse) {}
+}
+
+message InventoryResponse {
+
+  string productId = 1;
+  int64 amount = 2;
+
+}
+
+message InventoryRequest {
+
+  string productId = 1;
+
+}

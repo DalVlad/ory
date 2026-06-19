@@ -24,12 +24,15 @@
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>25</java.version>
-        <grpc.version>1.77.1</grpc.version>
+        <grpc.version>1.82.0</grpc.version>
         <protobuf-java.version>4.33.4</protobuf-java.version>
         <spring-cloud.version>2025.1.1</spring-cloud.version>
         <spring-grpc.version>1.0.3</spring-grpc.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
+        <spring-boot.version>4.1.0</spring-boot.version>
     </properties>
 
 
@@ -51,16 +54,9 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.springframework.grpc</groupId>
-                <artifactId>spring-grpc-dependencies</artifactId>
-                <version>${spring-grpc.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>4.0.6</version>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -73,21 +69,23 @@
                 <plugin>
                     <groupId>io.github.ascopes</groupId>
                     <artifactId>protobuf-maven-plugin</artifactId>
-                    <version>4.0.3</version>
+                    <version>5.1.4</version>
                     <configuration>
-                        <protoc>${protobuf-java.version}</protoc>
-                        <binaryMavenPlugins>
-                            <binaryMavenPlugin>
+                        <protoc kind="binary-maven">
+                            <version>${protobuf-java.version}</version>
+                        </protoc>
+                        <plugins>
+                            <plugin kind="binary-maven">
                                 <groupId>io.grpc</groupId>
                                 <artifactId>protoc-gen-grpc-java</artifactId>
                                 <version>${grpc.version}</version>
                                 <options>@generated=omit</options>
-                            </binaryMavenPlugin>
-                        </binaryMavenPlugins>
+                            </plugin>
+                        </plugins>
                     </configuration>
+
                     <executions>
                         <execution>
-                            <id>generate</id>
                             <goals>
                                 <goal>generate</goal>
                             </goals>
@@ -97,6 +95,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
                     <configuration>
                         <excludes>
                             <exclude>

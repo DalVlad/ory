@@ -24,7 +24,7 @@ public class OrderControllerImpl implements OrderController {
 
     @Override
     public ResponseEntity<OrderDTO> getOrder(UUID orderId) {
-        log.info("Get order with {}", orderId);
+        log.info("Get order with id: {}", orderId);
         return ResponseEntity.ok(os.getOrder(orderId));
     }
 

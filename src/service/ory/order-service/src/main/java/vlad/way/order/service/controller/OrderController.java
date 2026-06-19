@@ -18,7 +18,7 @@ import java.util.UUID;
 public interface OrderController {
 
     @GetMapping("/{orderId}")
-    ResponseEntity<OrderDTO> getOrder(@PathParam("orderId") UUID orderId);
+    ResponseEntity<OrderDTO> getOrder(@PathVariable("orderId") UUID orderId);
 
     @PostMapping
     ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequest order);
