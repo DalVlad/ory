@@ -24,7 +24,6 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
 @Slf4j
 public class OrderServiceImpl implements OrderService {
 
@@ -37,17 +36,6 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO createOrder(OrderRequest orderDTO){
 
         Order order = mo.mapToOrder(orderDTO);
-        List<OrderItem> isProductInInventory = order.getItems().stream()
-                .filter(orderItem -> {
-                    long amount = ig.getInventory(orderItem.getProductId()).amount(); //TODO как будто луче отправлять список, а не id по отдельности?
-                    return amount >= orderItem.getAmount();
-                }).toList();
-
-        boolean isSizeEquals = isProductInInventory.size() != order.getItems().size();
-        log.debug("In order is equals in inventory: {}, List in inventory {}", isSizeEquals, isProductInInventory);
-        if(isSizeEquals)
-            throw new NoProductInInventoryException("No amount product in inventory",
-                    new HashSet<>(isProductInInventory), new HashSet<>(order.getItems()));
 
         order.getItems().forEach(orderItem -> orderItem.setOrder(order));
         order.setPrise(order.getItems().stream()
@@ -59,12 +47,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public boolean isProductInInventory(OrderRequest orderDTO) {
+        Order order = mo.mapToOrder(orderDTO);
+        List<OrderItem> isProductInInventory = order.getItems().stream()
+                .filter(orderItem -> {
+                    long amount = ig.getInventory(orderItem.getProductId()).amount();
+                    return amount >= orderItem.getAmount();
+                }).toList();
+
+        boolean isSizeEquals = isProductInInventory.size() != order.getItems().size();
+        log.debug("In order is equals in inventory: {}, List in inventory {}", isSizeEquals, isProductInInventory);
+        if(isSizeEquals)
+            throw new NoProductInInventoryException("No amount product in inventory",
+                    new HashSet<>(isProductInInventory), new HashSet<>(order.getItems()));
+        return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public OrderDTO getOrder(UUID id){
         return mo.mapToOrderDTO(or.findByIdOrderByItems(id)
                 .orElseThrow(() -> new OrderNotFountException("Order not found with id")));
     }
 
     @Override
+    @Transactional
     public OrderDTO updateOrderStatus(UUID id, OrderStatus status){
         Order order = or.findById(id).orElseThrow(() -> new OrderNotFountException("Order not found with id"));
         order.setStatus(status);

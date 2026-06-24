@@ -31,6 +31,8 @@ public class OrderControllerImpl implements OrderController {
     @Override
     public ResponseEntity<OrderDTO> createOrder(OrderRequest order) {
         log.info("Start creat order");
+        if(!os.isProductInInventory(order))
+            return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(os.createOrder(order));
     }
 }

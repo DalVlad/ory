@@ -11,5 +11,6 @@ public interface OrderService {
     OrderDTO createOrder(OrderRequest orderDTO);
     OrderDTO getOrder(UUID id);
     OrderDTO updateOrderStatus(UUID id, OrderStatus status);
+    boolean isProductInInventory(OrderRequest orderDTO);
 
 }
